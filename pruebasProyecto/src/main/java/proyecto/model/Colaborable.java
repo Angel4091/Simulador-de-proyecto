@@ -1,4 +1,4 @@
-package Proyecto.model;
+package proyecto.model;
 
 public interface Colaborable {
     void compartir(Usuario u);
