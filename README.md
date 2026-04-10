@@ -1,178 +1,168 @@
 # 📘 Sistema de Gestión de Tareas Colaborativas
 
-## 🧩 Descripción General
+## 📌 Descripción General del Proyecto
 
-Este proyecto implementa un sistema orientado a la gestión de tareas y recordatorios dentro de un entorno colaborativo.
+Este proyecto consiste en el desarrollo de una aplicación en Java que permite la gestión de tareas y recordatorios dentro de un entorno colaborativo.
 
-El objetivo principal es permitir que múltiples usuarios puedan:
-- Crear tareas
-- Organizar actividades
-- Compartir responsabilidades
-- Dar seguimiento al progreso
+El sistema permite a los usuarios:
+- Crear tareas y recordatorios
+- Organizar actividades según prioridad y estado
+- Compartir tareas con otros usuarios
+- Dar seguimiento al progreso de cada actividad
 
-El diseño del sistema está basado en Programación Orientada a Objetos (POO), buscando claridad, modularidad y facilidad de mantenimiento.
-
----
-
-## 🏗️ Arquitectura del Sistema
-
-El sistema está estructurado en torno a entidades principales que representan los elementos reales del problema: usuarios, tareas y recordatorios.
-
-Cada componente tiene una responsabilidad clara, lo que permite que el sistema sea escalable y fácil de entender.
+El diseño está basado en Programación Orientada a Objetos (POO), utilizando clases abstractas, herencia e interfaces para estructurar el sistema de forma clara y escalable.
 
 ---
 
-## 👤 Gestión de Usuarios
+## 🎯 Objetivos de los Entregables
 
-### 🔹 Usuario (Clase Base)
-
-Representa a cualquier persona que interactúa con el sistema.
-
-Responsabilidades principales:
-- Autenticarse en el sistema
-- Crear tareas
-- Crear recordatorios
-
-Esta clase funciona como base para otros tipos de usuarios, permitiendo reutilizar comportamiento común.
+- **Entrega 1:** Diseño del sistema mediante diagrama UML
+- **Entrega 2:** Implementación de las clases principales en Java
+- **Entrega 3:** Integración del sistema, pruebas y funcionamiento completo
 
 ---
 
-### 🔹 UsuarioClasico
+## 🧪 Guía de Uso del Proyecto en Java
 
-Extiende la funcionalidad básica del usuario con ciertas restricciones.
+### ▶️ Cómo ejecutar el proyecto
 
-Características:
-- Tiene un límite de tareas que puede crear
-- Controla la cantidad de tareas activas
-
-Esto permite simular un modelo de usuario con acceso limitado.
+1. Abrir el proyecto en un IDE (IntelliJ, NetBeans o VS Code)
+2. Ubicar la clase principal (`Main`)
+3. Ejecutar el programa
 
 ---
 
-### 🔹 UsuarioPremium
+### ➕ Cómo ingresar datos
 
-Representa un usuario con privilegios adicionales.
+El sistema puede solicitar datos como:
 
-Funcionalidades:
-- Acceso a estadísticas del sistema
-- Capacidad de compartir tareas con otros usuarios
-
-Este tipo de usuario está diseñado para ofrecer una experiencia más completa dentro del sistema.
-
----
-
-## 📋 Gestión de Tareas
-
-### 🔹 Elemento (Clase Abstracta)
-
-Es la base de los objetos principales del sistema.
-
-Contiene información común como:
-- Título
+- Nombre del usuario
+- Correo electrónico
+- Tipo de usuario (clasico o premium)
+- Título de tarea
 - Descripción
-- Estado
-- Prioridad
-- Fecha de creación
-
-Permite evitar duplicación de código y centralizar comportamiento compartido.
+- Prioridad (ALTA, MEDIA, BAJA)
+- Fecha (para recordatorios o vencimientos)
 
 ---
 
-### 🔹 Tarea
+## 🧾 Indicaciones para probar el sistema
 
-Representa una actividad que debe ser completada.
+### 👤 Creación de usuario
 
-Características:
-- Puede tener una fecha límite
-- Puede compartirse con otros usuarios
-- Puede contener múltiples recordatorios
-
-Esto permite modelar tareas complejas dentro de un entorno colaborativo.
+Ejemplo de datos esperados:
+- Nombre: Juan Pérez  
+- Correo: juan@email.com  
+- Tipo: premium  
 
 ---
 
-### 🔹 Recordatorio
+### 📋 Creación de tarea
 
-Representa una notificación asociada a una tarea o evento.
-
-Funcionalidad:
-- Programar alertas en fechas y horas específicas
-
-Su propósito es ayudar al usuario a no olvidar actividades importantes.
-
----
-
-## 🔗 Modelo de Interacción
-
-El sistema se basa en las siguientes relaciones clave:
-
-- Un usuario puede crear múltiples tareas y recordatorios
-- Una tarea puede ser compartida entre varios usuarios
-- Una tarea puede tener múltiples recordatorios asociados
-- Los usuarios premium pueden compartir elementos con otros usuarios
-
-Estas relaciones permiten una interacción flexible y colaborativa entre los usuarios.
+Pasos:
+1. Ingresar título
+2. Ingresar descripción
+3. Seleccionar prioridad
+4. (Opcional) agregar fecha de vencimiento
 
 ---
 
-## 🔐 Autenticación
+### ⏰ Crear recordatorio
 
-El sistema incluye un mecanismo de autenticación que permite validar el acceso de los usuarios.
-
-Esto asegura que:
-- Solo usuarios registrados puedan acceder
-- Las acciones estén asociadas a un usuario específico
-
----
-
-## 🤝 Colaboración
-
-Uno de los aspectos principales del sistema es la colaboración.
-
-Se permite:
-- Compartir tareas entre usuarios
-- Trabajar en conjunto sobre una misma actividad
-- Gestionar responsabilidades de forma distribuida
+Pasos:
+1. Ingresar título
+2. Definir fecha y hora
+3. Asociarlo a una tarea (si aplica)
 
 ---
 
-## 📊 Organización de Tareas
+### 🤝 Compartir tarea
 
-Para mejorar la gestión, las tareas cuentan con:
-
-### Estados:
-- Pendiente
-- En progreso
-- Completada
-- Cancelada
-
-### Prioridades:
-- Alta
-- Media
-- Baja
-
-Esto permite al usuario tener mejor control y organización de sus actividades.
+Pasos:
+1. Seleccionar tarea existente
+2. Seleccionar usuario
+3. Ejecutar opción de compartir
 
 ---
 
-## 🎯 Decisiones de Diseño
+## 📥📤 Ejemplos de Entrada y Salida
 
-El sistema fue diseñado siguiendo buenas prácticas de POO:
+### 🔹 Ejemplo 1: Crear usuario
 
-- Uso de clases abstractas para reutilización
-- Separación de responsabilidades
-- Uso de interfaces para definir comportamientos
-- Extensibilidad para futuros cambios
+**Entrada:**
+Nombre: Ana López
+Correo: ana@email.com
+Tipo: clasico
 
-Estas decisiones permiten que el sistema sea:
-- Escalable
-- Mantenible
-- Fácil de entender
+**Salida esperada:**
+
+Usuario creado correctamente
+Tipo: UsuarioClasico
 
 ---
 
-## 🚀 Conclusión
+### 🔹 Ejemplo 2: Crear tarea
 
-Este proyecto demuestra la implementación de un sistema estructurado y organizado, aplicando correctamente conceptos de Programación Orientada a Objetos.
+**Entrada:**
 
-Además, refleja un enfoque colaborativo donde múltiples usuarios pueden interactuar de manera eficiente, simulando un entorno real de gestión de tareas.
+Título: Estudiar POO
+Descripción: Repasar clases abstractas
+Prioridad: ALTA
+
+**Salida esperada:**
+
+Tarea creada exitosamente
+Estado: PENDIENTE
+
+---
+
+### 🔹 Ejemplo 3: Compartir tarea
+
+**Entrada:**
+
+Usuario destino: Carlos
+
+**Salida esperada:**
+
+Tarea compartida correctamente
+
+---
+
+### 🔹 Ejemplo 4: Crear recordatorio
+
+**Entrada:**
+
+Título: Entrega proyecto
+Fecha: 2026-04-10 18:00
+
+**Salida esperada:**
+
+Recordatorio programado correctamente
+
+---
+
+## 🧠 Explicación General del Funcionamiento
+
+El sistema está estructurado en torno a tres elementos principales:
+
+- **Usuarios:** crean y gestionan tareas
+- **Tareas:** representan actividades a realizar
+- **Recordatorios:** ayudan a notificar eventos importantes
+
+Existen dos tipos de usuarios:
+- UsuarioClasico: con limitaciones
+- UsuarioPremium: con funciones avanzadas como compartir tareas
+
+Las tareas pueden:
+- Tener diferentes estados (pendiente, en progreso, etc.)
+- Tener prioridad (alta, media, baja)
+- Ser compartidas con otros usuarios
+- Contener recordatorios
+
+Esto permite simular un entorno colaborativo real.
+
+---
+
+## 📎 Conclusión
+
+Este proyecto demuestra la aplicación de conceptos de Programación Orientada a Objetos en Java, integrando múltiples clases y relaciones para construir un sistema funcional, organizado y fácil de extender.
