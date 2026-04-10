@@ -2,7 +2,7 @@ package proyecto.model;
 
 import java.time.LocalDateTime;
 
-public class UsuarioClasico extends User {
+public class UsuarioClasico extends Usuario {
 
     private int limiteTareas;
     private int contadorTareas;
@@ -25,7 +25,7 @@ public class UsuarioClasico extends User {
             contadorTareas++;
             return true;
         } else {
-            System.out.println("Has alcanzado el límite de tareas.");
+            System.out.println("Has alcanzado el limite de tareas.");
             return false;
         }
     }

@@ -2,7 +2,7 @@ package proyecto.model;
 
 import java.time.LocalDateTime;
 
-public class UsuarioPremium extends User implements Colaborable {
+public class UsuarioPremium extends Usuario implements Colaborable {
 
     private double bono;
 
@@ -18,20 +18,20 @@ public class UsuarioPremium extends User implements Colaborable {
     }
 
     @Override
-    public void compartir(User u) {
+    public void compartir(Usuario u) {
         if (u != null) {
             System.out.println(getNombre() + " comparte con " + u.getNombre());
         }
     }
 
     @Override
-    public void eliminarCompartido(User u) {
+    public void eliminarCompartido(Usuario u) {
         if (u != null) {
             System.out.println("Acceso eliminado a " + u.getNombre());
         }
     }
 
-    public void compartirElemento(Elemento e, User u) {
+    public void compartirElemento(Elemento e, Usuario u) {
         if (e != null && u != null) {
             System.out.println("Elemento compartido con " + u.getNombre());
         }

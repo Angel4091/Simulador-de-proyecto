@@ -9,12 +9,12 @@ public abstract class Elemento {
     protected Estado estado;
     protected Prioridad prioridad;
     protected LocalDateTime fechaCreacion;
-    protected User creador;
+    protected Usuario creador;
 
-    public Elemento() {}
+    public Elemento() {
+    }
 
-    public Elemento(String titulo, String descripcion, Estado estado, Prioridad prioridad,
-                    LocalDateTime fechaCreacion, User creador) {
+    public Elemento(String titulo, String descripcion, Estado estado, Prioridad prioridad, LocalDateTime fechaCreacion, Usuario creador) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.estado = estado;
@@ -36,7 +36,7 @@ public abstract class Elemento {
         this.estado = nuevoEstado;
     }
 
-    public User getCreador() {
+    public Usuario getCreador() {
         return creador;
     }
 }

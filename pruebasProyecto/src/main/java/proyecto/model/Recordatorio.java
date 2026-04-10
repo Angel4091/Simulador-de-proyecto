@@ -11,9 +11,7 @@ public class Recordatorio extends Elemento {
         super();
     }
 
-    public Recordatorio(String titulo, String descripcion, Estado estado, Prioridad prioridad,
-                        LocalDateTime fechaCreacion, LocalDateTime fechaHora, String icono, User creador) {
-
+    public Recordatorio(String titulo, String descripcion, Estado estado, Prioridad prioridad, LocalDateTime fechaCreacion, LocalDateTime fechaHora, String icono, Usuario creador) {
         super(titulo, descripcion, estado, prioridad, fechaCreacion, creador);
         this.fechaHora = fechaHora;
         this.icono = icono;

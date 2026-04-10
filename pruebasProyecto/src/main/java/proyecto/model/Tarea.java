@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Tarea extends Elemento implements Colaborable {
 
-    private List<User> usuariosCompartidos;
+    private List<Usuario> usuariosCompartidos;
     private LocalDateTime fechaVencimiento;
 
     public Tarea() {
@@ -14,8 +14,7 @@ public class Tarea extends Elemento implements Colaborable {
         this.usuariosCompartidos = new ArrayList<>();
     }
 
-    public Tarea(String titulo, String descripcion, Estado estado, Prioridad prioridad,
-                 LocalDateTime fechaCreacion, LocalDateTime fechaVencimiento, User creador) {
+    public Tarea(String titulo, String descripcion, Estado estado, Prioridad prioridad, LocalDateTime fechaCreacion, LocalDateTime fechaVencimiento, Usuario creador) {
 
         super(titulo, descripcion, estado, prioridad, fechaCreacion, creador);
         this.fechaVencimiento = fechaVencimiento;
@@ -23,7 +22,7 @@ public class Tarea extends Elemento implements Colaborable {
     }
 
     @Override
-    public void compartir(User u) {
+    public void compartir(Usuario u) {
         if (u != null && !usuariosCompartidos.contains(u)) {
             usuariosCompartidos.add(u);
             System.out.println("Compartido con " + u.getNombre());
@@ -31,11 +30,11 @@ public class Tarea extends Elemento implements Colaborable {
     }
 
     @Override
-    public void eliminarCompartido(User u) {
+    public void eliminarCompartido(Usuario u) {
         usuariosCompartidos.remove(u);
     }
 
-    public boolean estaCompartidaCon(User u) {
+    public boolean estaCompartidaCon(Usuario u) {
         return usuariosCompartidos.contains(u);
     }
 }

@@ -1,6 +1,5 @@
-package proyecto;
-
 import proyecto.model.*;
+
 import java.time.LocalDateTime;
 
 public class Main {
@@ -8,23 +7,9 @@ public class Main {
     public static void main(String[] args) {
 
         // USUARIOS QUEMADOS
-        UsuarioClasico u1 = new UsuarioClasico(
-                1,
-                "Luis",
-                "luis@gmail.com",
-                "123",
-                LocalDateTime.now(),
-                2 // límite de tareas
-        );
+        UsuarioClasico u1 = new UsuarioClasico(1, "Luis", "luis@gmail.com", "123", LocalDateTime.now(), 2); // límite de tareas
 
-        UsuarioPremium u2 = new UsuarioPremium(
-                2,
-                "Maria",
-                "maria@gmail.com",
-                "123",
-                LocalDateTime.now(),
-                50.0
-        );
+        UsuarioPremium u2 = new UsuarioPremium(2, "Maria", "maria@gmail.com", "123", LocalDateTime.now(), 50.0);
 
         System.out.println("=== LOGIN ===");
         u1.login("luis@gmail.com", "123");
@@ -34,7 +19,7 @@ public class Main {
         System.out.println("\n=== CREAR TAREAS ===");
 
         Tarea t1 = u1.crearTarea("Estudiar", "POO examen", Prioridad.ALTA);
-        Tarea t2 = u1.crearTarea("Hacer tarea", "Matemática", Prioridad.MEDIA);
+        Tarea t2 = u1.crearTarea("Hacer tarea", "Matematica", Prioridad.MEDIA);
 
         // Esta debería fallar por límite
         Tarea t3 = u1.crearTarea("Otra tarea", "Extra", Prioridad.BAJA);
@@ -64,6 +49,10 @@ public class Main {
             t1.mostrarInfo();
         }
 
+        // Logout
+        System.out.println("=== LOGOUT ===");
+        u1.logout();
+        u2.logout();
     }
 }
 
