@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public abstract class Elemento {
 
     //atributos
-    protected String nombre;
+    protected String titulo;
     protected String descripcion;
     protected Estado estado;
     protected Prioridad prioridad;
@@ -15,8 +15,8 @@ public abstract class Elemento {
     public Elemento() {}
 
     //Constructor Parametrizado
-    public Elemento(String nombre, String descripcion, Estado estado, Prioridad prioridad, LocalDateTime fechaCreacion) {
-        this.nombre = nombre;
+    public Elemento(String titulo, String descripcion, Estado estado, Prioridad prioridad, LocalDateTime fechaCreacion) {
+        this.titulo = titulo;
         this.descripcion = descripcion;
         this.estado = estado;
         this.prioridad = prioridad;
@@ -25,7 +25,7 @@ public abstract class Elemento {
 
     //metodos
     public void mostrarInfo(){
-        System.out.println("Nombre: " + nombre);
+        System.out.println("Titulo: " + titulo);
         System.out.println("Descripcion: " + descripcion);
         System.out.println("Estado: " + estado);
         System.out.println("Prioridad: " + prioridad);
@@ -42,12 +42,12 @@ public abstract class Elemento {
 
     //Getters y Setters
 
-    public String getNombre() {
-        return nombre;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombre(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getDescripcion() {
