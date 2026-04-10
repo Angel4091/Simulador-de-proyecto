@@ -1,7 +1,7 @@
 package proyecto.model;
 
 public enum Prioridad {
-    ALTA,
+    BAJA,
     MEDIA,
-    BAJA
+    ALTA
 }
