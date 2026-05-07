@@ -1,0 +1,20 @@
+# Build outputs
+build/
+out/
+target/
+bin/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+
+# Gradle
+.gradle/
+
+# OS
+.DS_Store
+Thumbs.db
