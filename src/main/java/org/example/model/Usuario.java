@@ -112,7 +112,7 @@ public abstract class Usuario implements Autenticable {
     public void ejecutarCreacion(String titulo, String descripcion) {
         if (estrategiaCreacion == null) {
             throw new IllegalStateException(
-                "El usuario " + nombre + " no tiene estrategia de creación asignada."
+                "El usuario " + nombre + " no tiene estrategia de creacion asignada."
             );
         }
         estrategiaCreacion.aplicarReglas(this);

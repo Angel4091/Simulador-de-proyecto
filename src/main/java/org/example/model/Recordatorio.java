@@ -49,7 +49,7 @@ public class Recordatorio extends Elemento {
     public void mostrarInfo() {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         System.out.println("[Recordatorio #" + id + "] " + titulo +
-            " | Cuándo: " + fechaHora.format(fmt) +
+            " | Cuando: " + fechaHora.format(fmt) +
             " | Alerta: " + (alertaActiva ? "ON" : "OFF"));
     }
 
