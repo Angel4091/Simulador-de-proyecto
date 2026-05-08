@@ -1,0 +1,158 @@
+@startuml sistema-gestion-tareas
+'================================================================
+' Diagrama UML - Sistema de gestión de tareas (versión corregida)
+' Patrones aplicados: Strategy + Factory Method
+'================================================================
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+hide empty members
+
+'================== ENUMS (catalog) ==========================
+package "catalog" <<Folder>> {
+    enum Estado {
+        PENDIENTE
+        EN_PROGRESO
+        COMPLETADA
+        CANCELADA
+    }
+
+    enum Prioridad {
+        ALTA
+        MEDIA
+        BAJA
+    }
+}
+
+'============= STRATEGY PATTERN (patterns) ===================
+package "patterns" <<Folder>> {
+    interface EstrategiaCreacion <<Strategy>> {
+        + validarLimite(u: Usuario): boolean
+        + aplicarReglas(u: Usuario): void
+    }
+
+    class CreacionLimitada <<ConcreteStrategy>> {
+        + validarLimite(u: Usuario): boolean
+        + aplicarReglas(u: Usuario): void
+    }
+
+    class CreacionIlimitada <<ConcreteStrategy>> {
+        + validarLimite(u: Usuario): boolean
+        + aplicarReglas(u: Usuario): void
+    }
+
+    EstrategiaCreacion <|.. CreacionLimitada
+    EstrategiaCreacion <|.. CreacionIlimitada
+}
+
+'================ INTERFACES (model) =========================
+package "model" <<Folder>> {
+
+    interface Autenticable {
+        + autenticar(email: String, password: String): boolean
+    }
+
+    interface Colaborable {
+        + estaCompartido(): boolean
+        + obtenerColaboradores(): List<Usuario>
+        + agregarColaborador(u: Usuario): void
+        + eliminarColaborador(u: Usuario): void
+    }
+
+    '----------------- Creator (abstract) -------------------
+    abstract class Usuario <<Creator>> {
+        # nombre: String
+        # email: String
+        # password: String
+        # contadorTareasActivas: int
+        # limiteTareas: int
+        # estrategiaCreacion: EstrategiaCreacion
+        # itemsCreados: List<Elemento>
+        # itemsCompartidos: List<Elemento>
+        --
+        + autenticar(email, password): boolean
+        + {abstract} crearElemento(titulo, descripcion): Elemento <<factory>>
+        + ejecutarCreacion(titulo, descripcion): void
+        + setEstrategia(e: EstrategiaCreacion): void
+        + imprimirItemsCreados(): void
+        + imprimirItemsCompartidos(): void
+    }
+
+    class UsuarioClasico <<ConcreteCreator>> {
+        + crearElemento(titulo, descripcion): Tarea
+    }
+
+    class UsuarioPremium <<ConcreteCreator>> {
+        - repertorioRecordatorios: List<Recordatorio>
+        --
+        + crearElemento(titulo, descripcion): Recordatorio
+    }
+
+    '----------------- Product (abstract) -------------------
+    abstract class Elemento <<Product>> {
+        # id: int
+        # titulo: String
+        # descripcion: String
+        # estado: Estado
+        # prioridad: Prioridad
+        # fechaCreacion: LocalDateTime
+        # colaboradores: List<Usuario>
+        --
+        + {abstract} mostrarInfo(): void
+        + cambiarEstado(estado: Estado): void
+        + establecerPrioridad(p: Prioridad): void
+        + agregarColaborador(u: Usuario): void
+        + eliminarColaborador(u: Usuario): void
+        + obtenerColaboradores(): List<Usuario>
+        + estaCompartido(): boolean
+    }
+
+    class Tarea <<ConcreteProduct>> {
+        - fechaVencimiento: LocalDateTime
+        --
+        + mostrarInfo(): void
+        + getFechaVencimiento(): LocalDateTime
+        + setFechaVencimiento(f: LocalDateTime): void
+    }
+
+    class Recordatorio <<ConcreteProduct>> {
+        - fechaHora: LocalDateTime
+        - alertaActiva: boolean
+        --
+        + mostrarInfo(): void
+        + obtenerDatosFecha(): String
+        + modificarAlerta(activa: boolean): void
+        + getFechaHora(): LocalDateTime
+    }
+
+    '------------------- Relaciones -------------------------
+    Usuario          ..|> Autenticable
+    Elemento         ..|> Colaborable
+    UsuarioClasico   --|> Usuario
+    UsuarioPremium   --|> Usuario
+    Tarea            --|> Elemento
+    Recordatorio     --|> Elemento
+
+    Usuario "1" *-- "0..*" Elemento : itemsCreados
+    Elemento "0..*" o-- "0..*" Usuario : colaboradores
+    Usuario  ..>  EstrategiaCreacion : usa estrategia
+    UsuarioClasico ..> Tarea          : <<creates>>
+    UsuarioPremium ..> Recordatorio   : <<creates>>
+    Elemento ..> Estado
+    Elemento ..> Prioridad
+}
+
+note right of EstrategiaCreacion
+    **Strategy**
+    UsuarioClasico → CreacionLimitada
+    UsuarioPremium → CreacionIlimitada
+end note
+
+note right of Usuario
+    **Factory Method**
+    `crearElemento()` es delegado a la
+    subclase concreta para decidir qué
+    `Elemento` producir.
+end note
+
+@enduml
