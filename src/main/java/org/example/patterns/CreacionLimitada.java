@@ -14,7 +14,7 @@ public class CreacionLimitada implements EstrategiaCreacion {
         if (!validarLimite(u)) {
             throw new IllegalStateException(
                 "El usuario " + u.getNombre() +
-                " alcanzó el límite de " + u.getLimiteTareas() + " tareas activas."
+                " alcanzo el limite de " + u.getLimiteTareas() + " tareas activas."
             );
         }
         u.setContadorTareasActivas(u.getContadorTareasActivas() + 1);
