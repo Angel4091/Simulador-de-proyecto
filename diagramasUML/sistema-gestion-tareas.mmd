@@ -1,11 +1,10 @@
-# Simulador-de-proyecto
-
-Sistema de gestión de tareas que aplica los patrones de diseño **Strategy** y **Factory Method**.
-
-## Diagrama UML
-
-```mermaid
 classDiagram
+    %% =============================================================
+    %% Sistema de gestión de tareas — versión corregida
+    %% Patrones: Strategy + Factory Method
+    %% =============================================================
+
+    %% ---------- ENUMS ----------
     class Estado {
         <<enumeration>>
         PENDIENTE
@@ -21,6 +20,7 @@ classDiagram
         BAJA
     }
 
+    %% ---------- INTERFACES ----------
     class Autenticable {
         <<interface>>
         +autenticar(email, password) boolean
@@ -50,6 +50,7 @@ classDiagram
         +aplicarReglas(u Usuario) void
     }
 
+    %% ---------- USUARIO (Creator) ----------
     class Usuario {
         <<abstract>>
         #nombre String
@@ -58,6 +59,8 @@ classDiagram
         #contadorTareasActivas int
         #limiteTareas int
         #estrategiaCreacion EstrategiaCreacion
+        #itemsCreados List~Elemento~
+        #itemsCompartidos List~Elemento~
         +autenticar(email, password) boolean
         +crearElemento(titulo, descripcion)* Elemento
         +ejecutarCreacion(titulo, descripcion) void
@@ -75,6 +78,7 @@ classDiagram
         +crearElemento(titulo, descripcion) Recordatorio
     }
 
+    %% ---------- ELEMENTO (Product) ----------
     class Elemento {
         <<abstract>>
         #id int
@@ -109,14 +113,17 @@ classDiagram
         +getFechaHora() LocalDateTime
     }
 
+    %% ---------- RELACIONES ----------
     Autenticable     <|.. Usuario
     Colaborable      <|.. Elemento
     EstrategiaCreacion <|.. CreacionLimitada
     EstrategiaCreacion <|.. CreacionIlimitada
+
     Usuario          <|-- UsuarioClasico
     Usuario          <|-- UsuarioPremium
     Elemento         <|-- Tarea
     Elemento         <|-- Recordatorio
+
     Usuario   "1" *-- "0..*" Elemento : itemsCreados
     Elemento  "0..*" o-- "0..*" Usuario : colaboradores
     Usuario   ..> EstrategiaCreacion : usa
@@ -124,28 +131,3 @@ classDiagram
     UsuarioPremium ..> Recordatorio  : crea
     Elemento  ..> Estado
     Elemento  ..> Prioridad
-```
-
-## Patrones aplicados
-
-- **Strategy** — `EstrategiaCreacion` con dos implementaciones (`CreacionLimitada`, `CreacionIlimitada`) que un `Usuario` puede intercambiar para validar/aplicar reglas al crear elementos.
-- **Factory Method** — `Usuario.crearElemento(...)` es delegado a las subclases (`UsuarioClasico` produce `Tarea`, `UsuarioPremium` produce `Recordatorio`).
-
-## Estructura del proyecto
-
-```
-src/main/java/org/example/
-├── Main.java                ← demo del sistema
-├── catalog/                 ← enums (Estado, Prioridad)
-├── patterns/                ← Strategy + concretas
-└── model/
-    ├── Autenticable, Colaborable      (interfaces)
-    ├── Usuario  → UsuarioClasico, UsuarioPremium
-    └── Elemento → Tarea, Recordatorio
-```
-
-## Ejecución
-
-```bash
-./gradlew run
-```
