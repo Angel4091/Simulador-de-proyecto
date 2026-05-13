@@ -1,0 +1,181 @@
+import subprocess
+
+dot = r"""
+graph ER {
+    graph [
+        rankdir=TB,
+        splines=true,
+        nodesep=0.4,
+        ranksep=1.2,
+        fontname="Helvetica",
+        bgcolor="white",
+        pad=0.8,
+        overlap=false
+    ]
+    node [fontname="Helvetica", fontsize=10]
+    edge [fontname="Helvetica", fontsize=9, color="#555555"]
+
+    // ================================================================
+    // ENTITIES
+    // ================================================================
+    node [shape=rectangle, style="filled,bold", fillcolor="#2980B9", fontcolor="white", width=2.0, height=0.55]
+    Hotel; Empleado; TipoHabitacion [label="Tipo Habitacion"];
+    Habitacion; Huesped [label="Huesped"];
+    Reservacion; Estancia [label="Estancia\n(Check-In/Out)"];
+    ConsumoServicio [label="Consumo de\nServicio"]; Servicio; Factura
+
+    // ================================================================
+    // RELATIONSHIPS
+    // ================================================================
+    node [shape=diamond, style=filled, fillcolor="#F39C12", fontcolor="black", width=1.6, height=0.6]
+    rel_emplea    [label="Emplea"]
+    rel_tieneH    [label="Tiene"]
+    rel_clasifica [label="Clasifica"]
+    rel_asignada  [label="Asignada en"]
+    rel_realiza   [label="Realiza"]
+    rel_origina   [label="Origina"]
+    rel_gestiona  [label="Gestiona"]
+    rel_genera    [label="Genera"]
+    rel_contiene  [label="Contiene"]
+    rel_incluye   [label="Incluye"]
+
+    // ================================================================
+    // ATTRIBUTES  (shape=ellipse, green tones)
+    // ================================================================
+    node [shape=ellipse, style=filled, fillcolor="#D5F5E3", fontcolor="black", width=1.4, height=0.45]
+
+    // Hotel
+    h_id   [label=<&#818;id_hotel&#818;>, fillcolor="#A9DFBF"]
+    h_nom  [label="nombre"]
+    h_dir  [label="direccion"]
+    h_tel  [label="telefono"]
+    h_est  [label="estrellas"]
+
+    // Empleado
+    e_id   [label=<&#818;id_empleado&#818;>, fillcolor="#A9DFBF"]
+    e_nom  [label="nombre"]
+    e_pue  [label="puesto"]
+
+    // TipoHabitacion
+    th_id  [label=<&#818;id_tipo&#818;>, fillcolor="#A9DFBF"]
+    th_nom [label="nombre"]
+    th_des [label="descripcion"]
+    th_pre [label="precio"]
+
+    // Habitacion
+    ha_id  [label=<&#818;id_habitacion&#818;>, fillcolor="#A9DFBF"]
+    ha_num [label="numero"]
+    ha_pis [label="piso"]
+
+    // Huesped
+    hu_id  [label=<&#818;id_huesped&#818;>, fillcolor="#A9DFBF"]
+    hu_doc [label="doc_identidad"]
+    hu_nom [label="nombre"]
+    hu_tel [label="telefono"]
+    hu_mai [label="mail"]
+
+    // Reservacion
+    r_id   [label=<&#818;id_reserva&#818;>, fillcolor="#A9DFBF"]
+    r_fre  [label="fecha_reserva"]
+    r_fi   [label="fecha_inicio"]
+    r_ff   [label="fecha_fin"]
+    r_est  [label="estado"]
+
+    // Estancia
+    es_id  [label=<&#818;id_estancia&#818;>, fillcolor="#A9DFBF"]
+    es_fen [label="fecha_entrada_real"]
+    es_fsa [label="fecha_salida_real"]
+
+    // ConsumoServicio
+    cs_id  [label=<&#818;id_consumo&#818;>, fillcolor="#A9DFBF"]
+    cs_fec [label="fecha"]
+    cs_can [label="cantidad"]
+    cs_sub [label="subtotal"]
+
+    // Servicio
+    sv_id  [label=<&#818;id_servicio&#818;>, fillcolor="#A9DFBF"]
+    sv_nom [label="nombre"]
+    sv_des [label="descripcion"]
+    sv_pre [label="precio"]
+
+    // Factura
+    f_id   [label=<&#818;id_factura&#818;>, fillcolor="#A9DFBF"]
+    f_tot  [label="monto_total"]
+    f_imp  [label="impuestos"]
+    f_fem  [label="fecha_emision"]
+
+    // ================================================================
+    // ATTRIBUTE EDGES
+    // ================================================================
+    h_id -- Hotel; h_nom -- Hotel; h_dir -- Hotel; h_tel -- Hotel; h_est -- Hotel
+
+    e_id -- Empleado; e_nom -- Empleado; e_pue -- Empleado
+
+    th_id -- TipoHabitacion; th_nom -- TipoHabitacion
+    th_des -- TipoHabitacion; th_pre -- TipoHabitacion
+
+    ha_id -- Habitacion; ha_num -- Habitacion; ha_pis -- Habitacion
+
+    hu_id -- Huesped; hu_doc -- Huesped; hu_nom -- Huesped
+    hu_tel -- Huesped; hu_mai -- Huesped
+
+    r_id -- Reservacion; r_fre -- Reservacion; r_fi -- Reservacion
+    r_ff -- Reservacion; r_est -- Reservacion
+
+    es_id -- Estancia; es_fen -- Estancia; es_fsa -- Estancia
+
+    cs_id -- ConsumoServicio; cs_fec -- ConsumoServicio
+    cs_can -- ConsumoServicio; cs_sub -- ConsumoServicio
+
+    sv_id -- Servicio; sv_nom -- Servicio; sv_des -- Servicio; sv_pre -- Servicio
+
+    f_id -- Factura; f_tot -- Factura; f_imp -- Factura; f_fem -- Factura
+
+    // ================================================================
+    // RELATIONSHIP EDGES  (with cardinality labels)
+    // ================================================================
+    Hotel       -- rel_emplea   [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+    rel_emplea  -- Empleado     [label="N", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+
+    Hotel       -- rel_tieneH   [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+    rel_tieneH  -- Habitacion   [label="N", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+
+    TipoHabitacion -- rel_clasifica [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+    rel_clasifica  -- Habitacion    [label="N", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+
+    Habitacion   -- rel_asignada  [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+    rel_asignada -- Reservacion   [label="N", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+
+    Huesped     -- rel_realiza  [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+    rel_realiza -- Reservacion  [label="N", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+
+    Reservacion -- rel_origina [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+    rel_origina -- Estancia    [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+
+    Empleado    -- rel_gestiona [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+    rel_gestiona -- Estancia   [label="N", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+
+    Estancia   -- rel_genera [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+    rel_genera -- Factura    [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+
+    Estancia    -- rel_contiene  [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+    rel_contiene -- ConsumoServicio [label="N", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+
+    Servicio    -- rel_incluye   [label="1", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+    rel_incluye -- ConsumoServicio [label="N", fontsize=11, fontcolor="#C0392B", fontname="Helvetica-Bold"]
+}
+"""
+
+with open("/home/user/Simulador-de-proyecto/er_hotelero.dot", "w") as f:
+    f.write(dot)
+
+result = subprocess.run(
+    ["dot", "-Tpng", "-Gdpi=180",
+     "-o", "/home/user/Simulador-de-proyecto/er_hotelero.png",
+     "/home/user/Simulador-de-proyecto/er_hotelero.dot"],
+    capture_output=True, text=True
+)
+if result.returncode == 0:
+    print("OK")
+else:
+    print("Error:", result.stderr)
